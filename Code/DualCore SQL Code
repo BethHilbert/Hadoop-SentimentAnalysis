@@ -1,0 +1,13 @@
+SELECT product_ratings_import.prod_id, 
+product_ratings_import.prod_line, 
+product_ratings_import.brand, 
+product_ratings_import.name, 
+product_ratings_import.positive_count, 
+product_ratings_import.negative_count, 
+[positive_count]+[negative_count] AS total_pos_neg, 
+Round(IIf([total_pos_neg]=0,0,(([positive_count]-[negative_count])/[total_pos_neg])),1) AS sentiment, Round(IIf([total_pos_neg]=0,50,([positive_count]/[total_pos_neg])*100),0) AS positivity, 
+product_ratings_import.price, 
+product_ratings_import.cost, 
+product_ratings_import.profit, 
+product_ratings_import.num_orders
+FROM product_ratings_import;
