@@ -1,6 +1,6 @@
 # Hadoop Sentiment Analysis Project
 
-Hadoop big data integration project. Uses sentiment analysis on product comments to suggest changes in product line. The accompanying report and presentation highlight challenges overcome during each step of big data integration (schema alignment, record linkage, data fusion). February 2018. 
+Hadoop big data integration project which uses sentiment analysis on product comments to suggest changes in product line. The accompanying report and presentation highlight challenges overcome during each step of big data integration (schema alignment, record linkage, data fusion). February 2018. 
 
 
 Dataset
@@ -23,9 +23,12 @@ Tools
 Since text processing lends itself well to key-value format, I used the Hadoop ecosystem as the system for processing the text comments. Scoop was used to ingest the data by chunks into the HDFS where the relationships could be stored. MapReduce, Hive, and Impala were used to process the data.  After processing, the results were exported to a diminsional table for customized reporting. 
 
 
-
+Links
+--------------------
 Report: https://github.com/BethHilbert/Hadoop-SentimentAnalysis/blob/master/Hadoop-Sentiment%20Report.pdf
 
 Presentation: https://github.com/BethHilbert/Hadoop-SentimentAnalysis/blob/master/Hadoop-Sentiment%20Presentation.pdf
+
+Data Structure: https://github.com/BethHilbert/Hadoop-SentimentAnalysis/blob/master/DualCore%20Data%20Structure.pdf
 
 HiveQL Queries: https://github.com/BethHilbert/Hadoop-SentimentAnalysis/blob/master/Code/DualCore%20HiveQL%20Queries
