@@ -1,0 +1,70 @@
+CREATE TABLE product_line_filter AS
+SELECT uniontables.prod_id, uniontables.prod_line 
+FROM (SELECT prod_id, "Tablet" AS prod_line
+FROM products
+WHERE name LIKE "%Tablet%"
+UNION ALL
+SELECT prod_id, "Laptop" AS prod_line
+FROM products
+WHERE name LIKE "%Laptop%"
+UNION ALL
+SELECT prod_id, "Server" AS prod_line
+FROM products
+WHERE name LIKE "%Server%") uniontables
+
+
+CREATE TABLE ratings_filtered AS
+SELECT r.prod_id, lower(message) AS message, rating
+FROM ratings r
+JOIN table_prod_line p
+ON r.prod_id = p.prod_id
+
+
+CREATE TABLE positive_products AS
+SELECT prod_id, count(prod_id) AS positive_count
+FROM ratings_filtered
+WHERE message RLIKE 'good|happy|fantastic|great|perfect|enjoy|love|excellent|recommend|high|well|best|excellent|better|highly|satisfied|bargain|enjoy|awesome|pleased|enjoys|well-built|decent|fine|great|bargain|easy|trust|perfectly|ideal|reliable|reasonable|worth|fine|flawless|sound|excelling|adept|supurb|impeccable|excelling|matchless|fault-less|choicest|first-rate|incomparable|terrific|outstanding|unparalleled|highest|unequaled|ecstatic|excited'
+AND message NOT RLIKE "not|don't|didn't"
+GROUP BY prod_id
+
+
+CREATE TABLE negative_products AS
+SELECT prod_id, count(prod_id) AS negative_count
+FROM ratings_filtered 
+WHERE message RLIKE "absurd|angry|annoy|atrocious|averse|awful|aweful|bad|badly|blah|broke|broken|cheap|costly|crappy|crummy|damage|damaged|defective|deficient|dissatisfy|dissatisfied|fail|failure|failed|flawed|faulty|garbage|hated|hate|horrible|inadequate|inferior|junk|loath|lousy|mediocre|meh|negative|overpriced|poorly|poor|rubbish|shoddy|substandard|terrible|trash|unacceptable|unhappy|waste|worse|worst"
+GROUP BY prod_id
+
+
+CREATE TABLE product_order_count AS
+SELECT p.prod_id, 
+ COALESCE(COUNT(d.prod_id),0) AS num_orders
+FROM product_line_filter p
+LEFT OUTER JOIN order_details d
+ON p.prod_id = d.prod_id
+GROUP BY p.prod_id
+
+
+CREATE TABLE product_ratings_schema AS
+SELECT t.prod_id, 
+ prod_line,
+ brand, 
+ name, 
+ IF(positive_count !=0, positive_count, 0) AS positive_count,
+ IF(negative_count !=0, negative_count, 0) AS negative_count,
+ ROUND(price/100,2) AS price, 
+ ROUND(cost/100,2) AS cost, 
+ ROUND((price-cost)/100,2) AS profit,
+ num_orders
+FROM product_line_filter t
+LEFT OUTER JOIN products p
+ON t.prod_id = p.prod_id
+LEFT OUTER JOIN positive_products pc
+ON t.prod_id = pc.prod_id
+LEFT OUTER JOIN negative_products nc
+ON t.prod_id = nc.prod_id
+LEFT OUTER JOIN product_order_count o
+ON t.prod_id = o.prod_id
+
+
+SELECT EXPLODE(NGRAMS(SENTENCES(LOWER(message)),3,10)) AS bigrams
+FROM negative_messages
