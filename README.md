@@ -29,4 +29,4 @@ Report: https://github.com/BethHilbert/Hadoop-SentimentAnalysis/blob/master/Hado
 
 Presentation: https://github.com/BethHilbert/Hadoop-SentimentAnalysis/blob/master/Hadoop-Sentiment%20Presentation.pdf
 
-Hive
+HiveQL Queries: https://github.com/BethHilbert/Hadoop-SentimentAnalysis/blob/master/Code/DualCore%20HiveQL%20Queries
