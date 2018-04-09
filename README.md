@@ -31,4 +31,4 @@ Presentation: https://github.com/BethHilbert/Hadoop-SentimentAnalysis/blob/maste
 
 Data Structure: https://github.com/BethHilbert/Hadoop-SentimentAnalysis/blob/master/DualCore%20Data%20Structure.pdf
 
-HiveQL Queries: https://github.com/BethHilbert/Hadoop-SentimentAnalysis/blob/master/Code/DualCore%20HiveQL%20Queries
+HiveQL Code: https://github.com/BethHilbert/Hadoop-SentimentAnalysis/blob/master/Code/DualCore%20HiveQL%20Code
